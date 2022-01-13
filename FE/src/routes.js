@@ -1,16 +1,18 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
 import { Route } from "react-router-dom";
-import { isUserAuthenticated, getLoggedInUser } from "./helpers/authUtils";
+import { isAdminAuthenticated, getLoggedInUser } from "./helpers/authUtils";
 
 const Login = React.lazy(() => import("./components/Login/Login"));
-
+const Register = React.lazy(() => import("./components/Register/Register"));
+const AdminPage = React.lazy(() => import("./components/admin/admin-manager/AdminPage"));
+const Category = React.lazy(() => import("./components/admin/Category/Category"));
 
 const PrivateRoute = ({ component: Component, roles, ...rest }) => (
   <Route
     {...rest}
     render={(props) => {
-      const isAuthTokenValid = isUserAuthenticated();
+      const isAuthTokenValid = getLoggedInUser();
       if (!isAuthTokenValid) {
         // not logged in so redirect to login page with the return url
         return (
@@ -36,8 +38,10 @@ const PrivateRoute = ({ component: Component, roles, ...rest }) => (
 );
 
 const routes = [
-  { path: "/login", name: "Login", component: Login, route: Route, exac: true },
-  // { path: "/logout", name: "Logout", component: Logout, route: Route },
+  { path: "/login", name: "Login", component: Login, route: Route },
+  { path: "/register", name: "Register", component: Register, route: Route },
+  { path: "/admin", name: "AdminPage", component: AdminPage, route: PrivateRoute, roles: ["MANAGER"], exact: true},
+  { path: "/admin/category", name: "AdminCategory", component: Category, route: PrivateRoute, roles: ["MANAGER"], exact: true},
 ]
 
 export { routes, PrivateRoute };

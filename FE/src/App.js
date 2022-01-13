@@ -5,7 +5,7 @@ import Loadable from "react-loadable";
 
 import { routes } from "./routes";
 
-import { isUserAuthenticated } from "./helpers/authUtils";
+import { isAdminAuthenticated } from "./helpers/authUtils";
 
 const loading = () => <div></div>;
 
@@ -38,7 +38,7 @@ const withLayout = (WrappedComponent) => {
 
 const App = () => {
   const getLayout = () => {
-    return isUserAuthenticated() ? AuthLayoutAdmin : NonAuthLayout;
+    return isAdminAuthenticated() ? AuthLayoutAdmin : NonAuthLayout;
 };
   const renderRouteHasChilds = (route) => {
     console.log(route);
