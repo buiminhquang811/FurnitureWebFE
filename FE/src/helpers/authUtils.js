@@ -6,7 +6,7 @@ import jwtDecode from 'jwt-decode';
  */
 const isAdminAuthenticated = () => {
     const user = getLoggedInUser();
-    
+    console.log({user});
     if (!user) {
         return false;
     };

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import './Category.scss'
+import './Producer.scss'
 import { useDispatch, useSelector } from 'react-redux';
-import { getListCategoriesRequest, createCategoryRequest, updateCategoryRequest } from '../redux/action';
+import { getListProducerRequest, createProducerRequest, updateProducerRequest } from '../redux/action';
 import { Col, Row } from 'antd';
 import { Input, Table, Button, Tooltip, Modal, Form, Select, Spin } from 'antd';
 import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
@@ -10,25 +10,30 @@ import moment from 'moment';
 
 const { Search } = Input;
 
+export default function Producer() {
 
-export default function Category() {
   const [form] = Form.useForm()
 
   const columns = [
     {
-      title: 'Tên danh mục',
+      title: 'Tên NSX',
       dataIndex: 'name',
       key: 'name',
     },
     {
-      title: 'Danh mục cha',
-      dataIndex: 'parentName',
-      key: 'parentName',
+      title: 'Địa chỉ',
+      dataIndex: 'address',
+      key: 'address',
     },
     {
       title: 'Chú thích',
       dataIndex: 'note',
       key: 'note',
+    },
+    {
+      title: 'Đường dẫn',
+      dataIndex: 'link',
+      key: 'link',
     },
     {
       title: 'Người tạo',
@@ -67,21 +72,20 @@ export default function Category() {
         )
       }
     }
-  ]
+  ];
 
-  const [listCategories, setListCategories] = useState([]);
+  const [listProducer, setListProducer] = useState([]);
   const [openModal, setOpenModal] = useState(false);
-  const [listParentCate, setListParentCate] = useState([]);
   const [valueForm, setValueForm] = useState({});
   const [modalType, setModalType] = useState('');
   const dispatch = useDispatch();
   const formRef = React.createRef();
-  const listCate = useSelector(store => store.AdminReducer.listCategories);
-  const isLoading = useSelector(store => store.AdminReducer.isLoadingListCategories);
-  const isSuccessCreateCategory = useSelector(store => store.AdminReducer.isSuccessCreateCategory);
-  const isLoadingCreateCategory = useSelector(store => store.AdminReducer.isLoadingCreateCategory);
-  const isSuccessUpdateCategory = useSelector(store => store.AdminReducer.isSuccessUpdateCategory);
-  const isLoadingUpdateCategory = useSelector(store => store.AdminReducer.isLoadingUpdateCategory);
+  const listProducerReducer = useSelector(store => store.AdminReducer.listProducer);
+  const isLoading = useSelector(store => store.AdminReducer.isLoadingListProducer);
+  const isSuccessCreateProducer = useSelector(store => store.AdminReducer.isSuccessCreateProducer);
+  const isLoadingCreateProducer = useSelector(store => store.AdminReducer.isLoadingCreateProducer);
+  const isSuccessUpdateProducer = useSelector(store => store.AdminReducer.isSuccessUpdateProducer);
+  const isLoadingUpdateProducer = useSelector(store => store.AdminReducer.isLoadingUpdateProducer);
 
   const [params, setParams] = useState({
     page: 1,
@@ -95,45 +99,21 @@ export default function Category() {
       size: params.size,
       term: params.term
     }
-    dispatch(getListCategoriesRequest(obj));
+    dispatch(getListProducerRequest(obj));
   }, []);
 
   useEffect(() => {
-    if(listCate.listCategory) {
-      const list1 = listCate.listCategory.map(e => {
+    if(listProducerReducer.listProducer) {
+      const list = listProducerReducer.listProducer.map(e => {
         return {
-          label: e.name,
-          value: e.id
-        }
-      })
-      const list = listCate.listCategory.map(e => {
-        if (e.parentId) {
-          const index = listCate.listCategory.findIndex(f => f.id === e.parentId);
-          if(index !== -1) {
-            return {
-              ...e,
-              parentName: listCate.listCategory[index].name,
-              createdAt: moment(e.createdAt).format('DD-MM-YYYY HH:mm'),
-              updatedAt: e.updatedAt ? moment(e.updatedAt).format('DD-MM-YYYY HH:mm') : '',
-            }
-          };
-          return {
-            ...e,
-            createdAt: moment(e.createdAt).format('DD-MM-YYYY HH:mm'),
-            updatedAt: e.updatedAt ? moment(e.updatedAt).format('DD-MM-YYYY HH:mm') : '',
-          };
-        } else {
-          return {
-            ...e,
-            createdAt: moment(e.createdAt).format('DD-MM-YYYY HH:mm'),
-            updatedAt: e.updatedAt ? moment(e.updatedAt).format('DD-MM-YYYY HH:mm') : '',
-          };
-        }
+          ...e,
+          createdAt: moment(e.createdAt).format('DD-MM-YYYY HH:mm'),
+          updatedAt: e.updatedAt ? moment(e.updatedAt).format('DD-MM-YYYY HH:mm') : '',
+        };
       });
-      setListCategories(list);
-      setListParentCate(list1);
+      setListProducer(list);
     }
-  }, [listCate]);
+  }, [listProducerReducer]);
 
   const onSearch = (value) => {
     const newParams = {
@@ -146,19 +126,20 @@ export default function Category() {
       term: newParams.term
     }
     setParams(newParams);
-    dispatch(getListCategoriesRequest(obj));
+    dispatch(getListProducerRequest(obj));
   };
 
   const onFinish = (values) => {
     if(modalType === 'CREATE') {
-      dispatch(createCategoryRequest(values));
+      dispatch(createProducerRequest(values));
     };
     if(modalType === 'EDIT') {
       const obj = {...valueForm};
       obj.name = values.name;
       obj.note = values.note;
-      obj.parentId = values.parentId;
-      dispatch(updateCategoryRequest(obj));
+      obj.link = values.link;
+      obj.address = values.address;
+      dispatch(updateProducerRequest(obj));
     }
   };
 
@@ -171,8 +152,9 @@ export default function Category() {
     const obj = {
       name: null,
       id: null,
-      parentId: null,
       note: null,
+      address: null,
+      link: null,
     }
     setValueForm((prevState) => {
       return obj;
@@ -182,7 +164,7 @@ export default function Category() {
   }
 
   useEffect(() => {
-    if(isSuccessCreateCategory && formRef.current) {
+    if(isSuccessCreateProducer && formRef.current) {
       formRef.current.resetFields();
       setOpenModal(false);
         const obj = {
@@ -190,13 +172,13 @@ export default function Category() {
           size: params.size,
           term: params.term
         }
-        dispatch(getListCategoriesRequest(obj));
+        dispatch(getListProducerRequest(obj));
     }
     
-  }, [isSuccessCreateCategory]);
+  }, [isSuccessCreateProducer]);
 
   useEffect(() => {
-    if(isSuccessUpdateCategory && formRef.current) {
+    if(isSuccessUpdateProducer && formRef.current) {
       formRef.current.resetFields();
       setOpenModal(false);
         const obj = {
@@ -204,10 +186,10 @@ export default function Category() {
           size: params.size,
           term: params.term
         }
-        dispatch(getListCategoriesRequest(obj));
+        dispatch(getListProducerRequest(obj));
     }
     
-  }, [isSuccessUpdateCategory]);
+  }, [isSuccessUpdateProducer]);
 
   function onOpenModalEdit(text, record) {
     setModalType(() => {
@@ -216,8 +198,9 @@ export default function Category() {
     const obj = {
       name: record.name,
       id: record.id,
-      parentId: record.parentId,
       note: record.note,
+      link: record.link,
+      address: record.address,
     }
     setValueForm((prevState) => {
       return obj;
@@ -227,8 +210,8 @@ export default function Category() {
   };
 
   return (
-    <>
-      <Row>
+    <>  
+       <Row>
         <Col span={16}>
           <Button icon={<PlusOutlined />} onClick={() => openAddNewCate()}>Thêm mới</Button>
         </Col>   
@@ -241,13 +224,13 @@ export default function Category() {
       <Col span={24}>
         <Table 
           bordered
-          dataSource={listCategories} 
+          dataSource={listProducer} 
           columns={columns} 
           rowKey={record => record.id}
           loading={isLoading}
           size={'small'}
           pagination={{
-            total: listCate.totalRow, 
+            total: listProducerReducer.totalRow, 
             showTotal: (total, range) => `Hiển thị ${range[0]} - ${range[1]} của ${total} bản ghi`,
             showSizeChanger: true
           }}
@@ -255,7 +238,7 @@ export default function Category() {
         </Col>
       </Row>
       <Modal
-        title={modalType === 'EDIT' ? 'Sửa danh mục' : 'Thêm mới danh mục'}
+        title={modalType === 'EDIT' ? 'Sửa NSX' : 'Thêm mới NSX'}
         centered
         visible={openModal}
         // onOk={() => setOpenModal(false)}
@@ -266,7 +249,7 @@ export default function Category() {
         footer={null}
         closable={false}
       >
-        <Spin spinning={isLoadingCreateCategory}>
+        <Spin spinning={isLoadingCreateProducer}>
         <Form
           name="basic"
           form={form}
@@ -281,9 +264,25 @@ export default function Category() {
           initialValues={valueForm}
         >
           <Form.Item
-            label="Tên danh mục"
+            label="Tên NSX"
             name="name"
-            rules={[{ required: true, message: 'Tên danh mục không được để trống' }]}
+            rules={[{ required: true, message: 'Tên NSX không được để trống' }]}
+          >
+            <Input />
+          </Form.Item>
+
+          <Form.Item
+            label="Địa chỉ"
+            name="address"
+            rules={[{ required: true, message: 'Địa chỉ không được để trống' }]}
+          >
+            <Input />
+          </Form.Item>
+
+          <Form.Item
+            label="Website"
+            name="link"
+            rules={[{ required: true, message: 'Website không được để trống' }]}
           >
             <Input />
           </Form.Item>
@@ -294,16 +293,6 @@ export default function Category() {
             rules={[{ required: false }]}
           >
             <Input />
-          </Form.Item>
-
-          <Form.Item name="parentId" label="Danh mục cha" rules={[{ required: false }]}>
-            <Select
-              placeholder="Lựa chọn danh mục cha"
-              // onChange={onGenderChange}
-              allowClear
-              options={listParentCate}
-            >
-            </Select>
           </Form.Item>
 
           <Form.Item wrapperCol={{  offset: 8, span: 6  }} style={{textAlign: "right"}}>
@@ -318,7 +307,6 @@ export default function Category() {
         </Form>
         </Spin>
       </Modal>
-      
     </>
-  )
+  );
 }

@@ -1,0 +1,175 @@
+import { 
+  GET_LIST_CATEGORIES, 
+  GET_LIST_CATEGORIES_ERROR, 
+  GET_LIST_CATEGORIES_SUCCESS,
+  CREATE_CATEGORY, 
+  CREATE_CATEGORY_ERROR, 
+  CREATE_CATEGORY_SUCCESS,
+  UPDATE_CATEGORY, 
+  UPDATE_CATEGORY_ERROR, 
+  UPDATE_CATEGORY_SUCCESS,
+  GET_LIST_PRODUCER, 
+  GET_LIST_PRODUCER_ERROR, 
+  GET_LIST_PRODUCER_SUCCESS,
+  CREATE_PRODUCER, 
+  CREATE_PRODUCER_ERROR, 
+  CREATE_PRODUCER_SUCCESS,
+  UPDATE_PRODUCER, 
+  UPDATE_PRODUCER_ERROR, 
+  UPDATE_PRODUCER_SUCCESS } from "./action";
+
+const INIT_STATE = {
+  listCategories: {},
+  isLoadingListCategories: false,
+  isSuccessCreateCategory: null,
+  isLoadingCreateCategory: false,
+  isSuccessUpdateCategory: null,
+  isLoadingUpdateCategory: false,
+
+  listProducer: {},
+  isLoadingListProducer: false,
+  isSuccessCreateProducer: null,
+  isLoadingCreateProducer: false,
+  isSuccessUpdateProducer: null,
+  isLoadingUpdateProducer: false,
+};
+
+const AdminReducer = (state = INIT_STATE, action) => {
+  switch(action.type) {
+    case GET_LIST_CATEGORIES: {
+      return {
+        ...state,
+        isLoadingListCategories: true,
+      }
+    };
+    case GET_LIST_CATEGORIES_SUCCESS: {
+      return {
+        ...state,
+        listCategories: action.payload,
+        isLoadingListCategories: false,
+      }
+    };
+    case GET_LIST_CATEGORIES_ERROR: {
+      return {
+        ...state,
+        isLoadingListCategories: false,
+        listCategories: {},
+      }
+    };
+
+    case CREATE_CATEGORY: {
+      return {
+        ...state,
+        isLoadingCreateCategory: true,
+        isSuccessCreateCategory: null,
+      }
+    };
+    case CREATE_CATEGORY_SUCCESS: {
+      return {
+        ...state,
+        isSuccessCreateCategory: true,
+        isLoadingCreateCategory: false,
+      }
+    };
+    case CREATE_CATEGORY_ERROR: {
+      return {
+        ...state,
+        isLoadingCreateCategory: false,
+        isSuccessCreateCategory: false,
+      }
+    };
+
+    case UPDATE_CATEGORY: {
+      return {
+        ...state,
+        isLoadingUpdateCategory: true,
+        isSuccessUpdateCategory: null,
+      }
+    };
+    case UPDATE_CATEGORY_SUCCESS: {
+      return {
+        ...state,
+        isSuccessUpdateCategory: true,
+        isLoadingUpdateCategory: false,
+      }
+    };
+    case UPDATE_CATEGORY_ERROR: {
+      return {
+        ...state,
+        isLoadingUpdateCategory: false,
+        isSuccessUpdateCategory: false,
+      }
+    };
+
+    //PRODUCER
+    case GET_LIST_PRODUCER: {
+      return {
+        ...state,
+        isLoadingListProducer: true,
+      }
+    };
+    case GET_LIST_PRODUCER_SUCCESS: {
+      return {
+        ...state,
+        listProducer: action.payload,
+        isLoadingListProducer: false,
+      }
+    };
+    case GET_LIST_PRODUCER_ERROR: {
+      return {
+        ...state,
+        isLoadingListProducer: false,
+        listProducer: {},
+      }
+    };
+
+    case CREATE_PRODUCER: {
+      return {
+        ...state,
+        isLoadingCreateProducer: true,
+        isSuccessCreateProducer: null,
+      }
+    };
+    case CREATE_PRODUCER_SUCCESS: {
+      return {
+        ...state,
+        isSuccessCreateProducer: true,
+        isLoadingCreateProducer: false,
+      }
+    };
+    case CREATE_PRODUCER_ERROR: {
+      return {
+        ...state,
+        isLoadingCreateProducer: false,
+        isSuccessCreateProducer: false,
+      }
+    };
+
+    case UPDATE_PRODUCER: {
+      return {
+        ...state,
+        isLoadingUpdateProducer: true,
+        isSuccessUpdateProducer: null,
+      }
+    };
+    case UPDATE_PRODUCER_SUCCESS: {
+      return {
+        ...state,
+        isSuccessUpdateProducer: true,
+        isLoadingUpdateProducer: false,
+      }
+    };
+    case UPDATE_PRODUCER_ERROR: {
+      return {
+        ...state,
+        isLoadingUpdateProducer: false,
+        isSuccessUpdateProducer: false,
+      }
+    };
+
+    default:
+      return { ...state };
+  }
+};
+
+export default AdminReducer;

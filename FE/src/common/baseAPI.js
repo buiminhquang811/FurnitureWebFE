@@ -11,6 +11,7 @@ baseInstance.interceptors.request.use(
     let token = localStorage.getItem("authtoken");
     if (token) {
       config.headers["Authorization"] = `Bearer ${token}`;
+      config.headers["token"] = token;
     }
     config.headers["Content-Type"] = "application/json";
     return config;
@@ -28,7 +29,14 @@ baseInstance.interceptors.response.use(
     return response;
   },
   (error) => {
-    console.log(error.message);
+    // console.log(error.response);
+    // let error1 = new Error(error);
+    // console.log(error1);
+    console.log({error});
+    if(error.response.status === 401) {
+      localStorage.removeItem("authtoken");
+      window.location.href = "/login";
+    }
     //  message = error.message;
     // if (error.response.data && error.response.data.errors) {
     //   message = error.response.data.errors;

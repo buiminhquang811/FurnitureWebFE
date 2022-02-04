@@ -24,12 +24,11 @@ export default function Login() {
 
     React.useEffect(() => {
       formRef.current.resetFields();
-
-
     }, [userLogin]);
 
     const renderRedirectToRoot = () => {
       const isAdmin = isAdminAuthenticated();
+      console.log(isAdmin);
       if (isAdmin) {
           return <Redirect to="/admin" />;
       }
