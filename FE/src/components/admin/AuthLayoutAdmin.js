@@ -47,7 +47,7 @@ class AuthLayoutAdmin extends Component {
     const user = getLoggedInUser();
     return (
       <Layout>
-        <Sider trigger={null} collapsible collapsed={this.state.collapsed} style={{height: '100vh'}}>
+        <Sider trigger={null} collapsible collapsed={this.state.collapsed} style={{height: 'auto'}}>
           <div className="logo" />
           <Menu theme="dark" mode="inline" selectedKeys={this.state.selectedKeys} onSelect={(data) => this.onSelect(data)}>
             

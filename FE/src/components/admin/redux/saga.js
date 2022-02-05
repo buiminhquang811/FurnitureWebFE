@@ -7,6 +7,7 @@ import {
   GET_LIST_PRODUCER, 
   CREATE_PRODUCER, 
   UPDATE_PRODUCER,
+  CREATE_PRODUCT,
 } from "./action";
 
 import {
@@ -23,6 +24,9 @@ import {
   createProducerError,
   updateProducerSucces,
   updateProducerError,
+
+  createProductSucces,
+  createProductError,
 } from "./action";
 
 import {
@@ -32,6 +36,7 @@ import {
   getListProducer, 
   createProducer, 
   updateProducer,
+  createProduct,
 } from "./api";
 
 function* getListCategoriesSaga(data) {
@@ -120,6 +125,20 @@ function* updateProducerSaga(data) {
   }
 };
 
+function* createProductSaga(data) {
+  try {
+    const response = yield call(createProduct, data.payload);
+    console.log(response);
+    if(response &&  response.data) {
+      yield put(createProductSucces());
+    } else {
+      yield put(createProductError());
+    }
+  } catch (error){
+    console.log(error);
+    yield put(createProductError());
+  }
+};
 
 function* defaultSaga() {
   yield takeEvery(GET_LIST_CATEGORIES, getListCategoriesSaga);
@@ -128,6 +147,8 @@ function* defaultSaga() {
   yield takeEvery(GET_LIST_PRODUCER, getListProducerSaga);
   yield takeEvery(CREATE_PRODUCER, createProducerSaga);
   yield takeEvery(UPDATE_PRODUCER, updateProducerSaga);
+  yield takeEvery(CREATE_PRODUCT, createProductSaga);
+
 };
 
 

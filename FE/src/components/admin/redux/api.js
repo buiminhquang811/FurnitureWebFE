@@ -3,6 +3,7 @@ import { ParseSimpleEndpoint } from "../../../helpers/ParseEndpoint";
 
 const CATEGORY = "categories";
 const PRODUCER = "producers";
+const PRODUCT = "products";
 
 const getListCategories = (data) => {
   return new Promise((resolve, reject) => {
@@ -52,7 +53,24 @@ const createProducer = (data) => {
 const updateProducer = (data) => {
   return new Promise((resolve, reject) => {
     return apiBase
-    .put(`${PRODUCER}/edit/${data.id}`, data)
+    .put(`${PRODUCT}/create`, data)
+    .then((res) => resolve(res))
+    .catch((err) => reject(err));
+  })
+};
+
+const createProduct = (data) => {
+  // let newFormData = new FormData();
+  // for (let i = 0; i < data.productsImg.length; i++) {
+  //   newFormData.append(`productsImg`, data.productsImg[i]);
+  // }
+  // Object.keys(data).filter(e => e !== 'productsImg').forEach(key => {
+  //   newFormData.append(key, data[key] ? data[key] : "");
+  // });
+  const header = { "Content-Type": "multipart/form-data" };
+  return new Promise((resolve, reject) => {
+    return apiBase
+    .post(`${PRODUCT}/create`, data, header)
     .then((res) => resolve(res))
     .catch((err) => reject(err));
   })
@@ -64,5 +82,6 @@ export {
   updateCategory,
   getListProducer,
   createProducer,
-  updateProducer
+  updateProducer,
+  createProduct
 }

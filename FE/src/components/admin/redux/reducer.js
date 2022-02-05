@@ -16,7 +16,10 @@ import {
   CREATE_PRODUCER_SUCCESS,
   UPDATE_PRODUCER, 
   UPDATE_PRODUCER_ERROR, 
-  UPDATE_PRODUCER_SUCCESS } from "./action";
+  UPDATE_PRODUCER_SUCCESS,
+  CREATE_PRODUCT, 
+  CREATE_PRODUCT_ERROR, 
+  CREATE_PRODUCT_SUCCESS, } from "./action";
 
 const INIT_STATE = {
   listCategories: {},
@@ -32,6 +35,9 @@ const INIT_STATE = {
   isLoadingCreateProducer: false,
   isSuccessUpdateProducer: null,
   isLoadingUpdateProducer: false,
+
+  isSuccessCreateProduct: null,
+  isLoadingCreateProduct: false,
 };
 
 const AdminReducer = (state = INIT_STATE, action) => {
@@ -164,6 +170,29 @@ const AdminReducer = (state = INIT_STATE, action) => {
         ...state,
         isLoadingUpdateProducer: false,
         isSuccessUpdateProducer: false,
+      }
+    };
+
+    //PRODUCT
+    case CREATE_PRODUCT: {
+      return {
+        ...state,
+        isLoadingCreateProduct: true,
+        isSuccessCreateProduct: null,
+      }
+    };
+    case CREATE_PRODUCT_SUCCESS: {
+      return {
+        ...state,
+        isSuccessCreateProduct: true,
+        isLoadingCreateProduct: false,
+      }
+    };
+    case CREATE_PRODUCT_ERROR: {
+      return {
+        ...state,
+        isLoadingCreateProduct: false,
+        isSuccessCreateProduct: false,
       }
     };
 

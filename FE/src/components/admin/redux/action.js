@@ -22,6 +22,10 @@ export const UPDATE_PRODUCER = "UPDATE_PRODUCER"
 export const UPDATE_PRODUCER_SUCCESS = "UPDATE_PRODUCER_SUCCESS";
 export const UPDATE_PRODUCER_ERROR = "UPDATE_PRODUCER_ERROR";
 
+export const CREATE_PRODUCT = "CREATE_PRODUCT"
+export const CREATE_PRODUCT_SUCCESS = "CREATE_PRODUCT_SUCCESS";
+export const CREATE_PRODUCT_ERROR = "CREATE_PRODUCT_ERROR";
+
 
 export const getListCategoriesRequest = (params) => {
   return {
@@ -137,5 +141,24 @@ export const updateProducerError = () => {
   return {
     type: UPDATE_PRODUCER_ERROR,
   }
-}
+};
+
+export const createProductRequest = (body) => {
+  return {
+    type: CREATE_PRODUCT,
+    payload: body,
+  }
+};
+
+export const createProductSucces = () => {
+  return {
+    type: CREATE_PRODUCT_SUCCESS,
+  }
+};
+
+export const createProductError = () => {
+  return {
+    type: CREATE_PRODUCT_ERROR,
+  }
+};
 

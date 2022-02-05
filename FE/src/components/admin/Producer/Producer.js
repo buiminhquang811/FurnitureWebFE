@@ -3,7 +3,7 @@ import './Producer.scss'
 import { useDispatch, useSelector } from 'react-redux';
 import { getListProducerRequest, createProducerRequest, updateProducerRequest } from '../redux/action';
 import { Col, Row } from 'antd';
-import { Input, Table, Button, Tooltip, Modal, Form, Select, Spin } from 'antd';
+import { Input, Table, Button, Tooltip, Modal, Form, Spin } from 'antd';
 import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 
 import moment from 'moment';
