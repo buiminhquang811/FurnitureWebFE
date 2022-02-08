@@ -1,14 +1,125 @@
 import React, {useEffect, useState} from 'react';
-import { Input, Button, Upload, Form, Select, Spin } from 'antd';
-
+import { Input, Button, Upload, Form, Select, Spin, TreeSelect } from 'antd';
+import { getListCategoriesRequest, getListProducerRequest, getDetailProductRequest, clearDetailProduct } from '../redux/action';
+import {useParams} from 'react-router-dom';
 import './NewProduct.scss'
 import { useDispatch, useSelector } from 'react-redux';
 import { Col, Row } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import {createProductRequest } from '../redux/action';
 
+
+
 export default function NewProduct() {
   const dispatch = useDispatch();
+  const listCate = useSelector(store => store.AdminReducer.listCategories);
+  const listProducerReducer = useSelector(store => store.AdminReducer.listProducer);
+  const itemProductReducer = useSelector(store => store.AdminReducer.itemProduct);
+  const [listParentCate, setListParentCate] = useState([]);
+  const [listProducer, setListProducer] = useState([]);
+  const [valueForm, setValueForm] = useState({});
+  const [form] = Form.useForm();
+  let { id } = useParams();
+
+  useEffect(() => {
+    if(id) {
+      dispatch(getDetailProductRequest(id));
+    } else {
+      dispatch(clearDetailProduct());
+    }
+  }, [])
+
+  useEffect(() => {
+    if (itemProductReducer && itemProductReducer.product) {
+      const initValue = {
+        ...itemProductReducer.product
+      }
+      const productsImg = [];
+      if (itemProductReducer.product.thumbnailImg) {
+        productsImg[0] = {};
+        productsImg[0].url = itemProductReducer.product.thumbnailImg
+      };
+      if (itemProductReducer.product.productImg1) {
+        productsImg[1] = {};
+        productsImg[1].url = itemProductReducer.product.productImg1
+      }
+      if (itemProductReducer.product.productImg2) {
+        productsImg[2] = {};
+        productsImg[2].url = itemProductReducer.product.productImg2
+      }
+      if (itemProductReducer.product.productImg3) {
+        productsImg[3] = {};
+        productsImg[3].url = itemProductReducer.product.productImg3
+      }
+      if (itemProductReducer.product.productImg4) {
+        productsImg[4] = {};
+        productsImg[4].url = itemProductReducer.product.productImg4
+      };
+      initValue.productsImg = productsImg;
+      form.setFieldsValue(initValue);
+    } else {
+      form.resetFields();
+    }
+  }, [itemProductReducer])
+
+  useEffect(() => {
+    const obj = {
+      page: 0,
+      size: 1000,
+      term: ''
+    }
+    dispatch(getListCategoriesRequest(obj));
+    dispatch(getListProducerRequest(obj));
+  }, []);
+
+  useEffect(() => {
+    if(listCate.listCategory) {
+      const parentList = listCate.listCategory.filter(e => !e.parentId).map(e1 => {
+        return {
+          ...e1,
+          title: e1.name,
+          value: e1.id,
+          key: e1.id,
+        }
+      });
+      const getChildren = (parentList) => {
+        for(let i = 0; i <= parentList.length - 1; i++) {
+          const listChild = listCate.listCategory.filter(e => e.parentId === parentList[i].id);
+          if(listChild && listChild.length) {
+            const listChild1 = listChild.map(e1 => {
+              return {
+                ...e1,
+                title: e1.name,
+                value: e1.id,
+                key: e1.id,
+              }
+            });
+            parentList[i].title = parentList[i].name;
+            parentList[i].value = parentList[i].id;
+            parentList[i].key = parentList[i].id;
+            parentList[i].children = listChild1;
+            getChildren(listChild1);
+          }
+        }
+      };
+      getChildren(parentList);
+      setListParentCate(parentList);
+    }
+  }, [listCate]);
+
+  useEffect(() => {
+    if(listProducerReducer.listProducer) {
+      const list = listProducerReducer.listProducer.map(e => {
+        return {
+          label: e.name,
+          value: e.id,
+        };
+      });
+      setListProducer(list);
+    }
+  }, [listProducerReducer]);
+
+
   const onFinish = (values) => {
     values.categoryId = 3;
     const formData = new FormData();
@@ -41,6 +152,7 @@ export default function NewProduct() {
         <Col span={24}>
           <Form
           name="basic"
+          form={form}
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 18 }}
           onFinish={onFinish}
@@ -64,13 +176,20 @@ export default function NewProduct() {
                 >
                   <Input />
               </Form.Item>
-              <Form.Item name="categoryId" label="Danh mục">
-                <Select
+              <Form.Item name="categoryId" label="Danh mục"  rules={[{ required: true, message: 'Danh mục không được để trống' }]}>
+                {/* <Select
                   placeholder="Lựa chọn danh mục"
                   // onChange={onGenderChange}
-                  options={[]}
-                >
-                </Select>
+                  options={listParentCate}
+                > */}
+                <TreeSelect  
+                   treeData={listParentCate}
+                   placeholder="Lựa chọn danh mục"
+                   dropdownStyle={{ maxHeight: 400, overflow: 'auto' }}
+                   style={{ width: '100%' }}
+                   treeDataSimpleMode
+                />
+                {/* </Select> */}
               </Form.Item>
               <Form.Item
                 label="Số lượng"
@@ -102,7 +221,7 @@ export default function NewProduct() {
                 <Select
                   placeholder="Lựa chọn NSX"
                   // onChange={onGenderChange}
-                  options={[]}
+                  options={listProducer}
                 >
                 </Select>
               </Form.Item>
@@ -130,7 +249,7 @@ export default function NewProduct() {
               </Form.Item>
               <Form.Item wrapperCol={{  offset: 8, span: 6  }} style={{textAlign: "center"}}>
                 <Button type="primary" htmlType="submit">
-                  Thêm mới
+                  {id ? 'Lưu' : 'Thêm mới'}
                 </Button>
               </Form.Item>
           </Form>

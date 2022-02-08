@@ -60,17 +60,28 @@ const updateProducer = (data) => {
 };
 
 const createProduct = (data) => {
-  // let newFormData = new FormData();
-  // for (let i = 0; i < data.productsImg.length; i++) {
-  //   newFormData.append(`productsImg`, data.productsImg[i]);
-  // }
-  // Object.keys(data).filter(e => e !== 'productsImg').forEach(key => {
-  //   newFormData.append(key, data[key] ? data[key] : "");
-  // });
   const header = { "Content-Type": "multipart/form-data" };
   return new Promise((resolve, reject) => {
     return apiBase
     .post(`${PRODUCT}/create`, data, header)
+    .then((res) => resolve(res))
+    .catch((err) => reject(err));
+  })
+};
+
+const getListProduct = (data) => {
+  return new Promise((resolve, reject) => {
+    return apiBase
+    .get(`${PRODUCT}/all-products?${ParseSimpleEndpoint(data.payload)}`)
+    .then((res) => resolve(res))
+    .catch((err) => reject(err));
+  })
+};
+
+const getDetailProduct = (data) => {
+  return new Promise((resolve, reject) => {
+    return apiBase
+    .get(`${PRODUCT}/${(data.payload)}`)
     .then((res) => resolve(res))
     .catch((err) => reject(err));
   })
@@ -83,5 +94,7 @@ export {
   getListProducer,
   createProducer,
   updateProducer,
-  createProduct
+  createProduct,
+  getListProduct,
+  getDetailProduct
 }

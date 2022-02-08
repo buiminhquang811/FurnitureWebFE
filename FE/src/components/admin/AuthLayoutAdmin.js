@@ -1,7 +1,7 @@
 import React, { Component, Suspense } from "react";
 import { Layout, Menu } from 'antd';
 import { connect } from "react-redux";
-import {Link} from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
@@ -47,7 +47,7 @@ class AuthLayoutAdmin extends Component {
     const user = getLoggedInUser();
     return (
       <Layout>
-        <Sider trigger={null} collapsible collapsed={this.state.collapsed} style={{height: 'auto'}}>
+        <Sider trigger={null} collapsible collapsed={this.state.collapsed} style={{height: 'auto', minHeight: '100vh'}}>
           <div className="logo" />
           <Menu theme="dark" mode="inline" selectedKeys={this.state.selectedKeys} onSelect={(data) => this.onSelect(data)}>
             
@@ -123,4 +123,4 @@ const mapStateToProps = (state) => {
         
     };
 };
-export default connect(mapStateToProps, null)(AuthLayoutAdmin);
+export default withRouter(connect(mapStateToProps, null)(AuthLayoutAdmin));

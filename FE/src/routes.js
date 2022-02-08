@@ -49,6 +49,7 @@ const routes = [
   { path: "/admin/product", name: "AdminProduct", component: Product, route: PrivateRoute, roles: ["MANAGER"], exact: true},
   { path: "/admin/producer", name: "AdminProducer", component: Producer, route: PrivateRoute, roles: ["MANAGER"], exact: true},
   { path: "/admin/product/create", name: "AdminAddProduct", component: NewProduct, route: PrivateRoute, roles: ["MANAGER"], exact: true},
+  { path: "/admin/product/edit/:id", name: "AdminProductEdit", component: NewProduct, route: PrivateRoute, roles: ["MANAGER"], exact: true},
 
 ]
 

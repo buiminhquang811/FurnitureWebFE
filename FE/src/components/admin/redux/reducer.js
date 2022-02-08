@@ -19,7 +19,14 @@ import {
   UPDATE_PRODUCER_SUCCESS,
   CREATE_PRODUCT, 
   CREATE_PRODUCT_ERROR, 
-  CREATE_PRODUCT_SUCCESS, } from "./action";
+  CREATE_PRODUCT_SUCCESS,
+  GET_LIST_PRODUCT, 
+  GET_LIST_PRODUCT_ERROR, 
+  GET_LIST_PRODUCT_SUCCESS,
+  GET_DETAIL_PRODUCT, 
+  GET_DETAIL_PRODUCT_ERROR, 
+  GET_DETAIL_PRODUCT_SUCCESS,
+  CLEAR_PRODUCT } from "./action";
 
 const INIT_STATE = {
   listCategories: {},
@@ -36,8 +43,12 @@ const INIT_STATE = {
   isSuccessUpdateProducer: null,
   isLoadingUpdateProducer: false,
 
+  listProduct: {},
+  isLoadingListProduct: false,
   isSuccessCreateProduct: null,
   isLoadingCreateProduct: false,
+
+  itemProduct: {},
 };
 
 const AdminReducer = (state = INIT_STATE, action) => {
@@ -174,6 +185,26 @@ const AdminReducer = (state = INIT_STATE, action) => {
     };
 
     //PRODUCT
+    case GET_LIST_PRODUCT: {
+      return {
+        ...state,
+        isLoadingListProduct: true,
+      }
+    };
+    case GET_LIST_PRODUCT_SUCCESS: {
+      return {
+        ...state,
+        listProduct: action.payload,
+        isLoadingListProduct: false,
+      }
+    };
+    case GET_LIST_PRODUCT_ERROR: {
+      return {
+        ...state,
+        isLoadingListProduct: false,
+        listProduct: {},
+      }
+    };
     case CREATE_PRODUCT: {
       return {
         ...state,
@@ -195,7 +226,29 @@ const AdminReducer = (state = INIT_STATE, action) => {
         isSuccessCreateProduct: false,
       }
     };
-
+    case GET_DETAIL_PRODUCT: {
+      return {
+        ...state,
+      }
+    };
+    case GET_DETAIL_PRODUCT_SUCCESS: {
+      return {
+        ...state,
+        itemProduct: action.payload,
+      }
+    };
+    case GET_DETAIL_PRODUCT_ERROR: {
+      return {
+        ...state,
+        itemProduct: {},
+      }
+    };
+    case CLEAR_PRODUCT: {
+      return {
+        ...state,
+        itemProduct: {},
+      }
+    }
     default:
       return { ...state };
   }
