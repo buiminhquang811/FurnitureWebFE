@@ -10,7 +10,7 @@ const Category = React.lazy(() => import("./components/admin/Category/Category")
 const Product = React.lazy(() => import("./components/admin/Product/Product"));
 const Producer = React.lazy(() => import("./components/admin/Producer/Producer"));
 const NewProduct = React.lazy(() => import("./components/admin/NewProduct/NewProduct"));
-
+const Home = React.lazy(() => import("./components/user/Home/Home"));
 
 const PrivateRoute = ({ component: Component, roles, ...rest }) => (
   <Route
@@ -42,8 +42,9 @@ const PrivateRoute = ({ component: Component, roles, ...rest }) => (
 );
 
 const routes = [
-  { path: "/login", name: "Login", component: Login, route: Route },
-  { path: "/register", name: "Register", component: Register, route: Route },
+  { path: "/", name: "Home", component: Home, route: Route, exact: true },
+  { path: "/login", name: "Login", component: Login, route: Route,  exact: true },
+  { path: "/register", name: "Register", component: Register, route: Route,  exact: true },
   { path: "/admin", name: "AdminPage", component: AdminPage, route: PrivateRoute, roles: ["MANAGER"], exact: true},
   { path: "/admin/category", name: "AdminCategory", component: Category, route: PrivateRoute, roles: ["MANAGER"], exact: true},
   { path: "/admin/product", name: "AdminProduct", component: Product, route: PrivateRoute, roles: ["MANAGER"], exact: true},

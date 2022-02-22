@@ -9,8 +9,9 @@ function* loginUserSaga(action) {
   try {
     const response = yield call(loginUser, action.payload);
     if(response && response.status === 200 && response.data) {
-      yield put(loginSucces(response.data));
       localStorage.setItem("authtoken", response.data.token);
+      yield put(loginSucces(response.data));
+      
     } else {
       yield put(loginError());
     }

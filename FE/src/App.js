@@ -18,8 +18,9 @@ const AuthLayoutAdmin = Loadable({
   loading,
 });
 
-const NonAuthLayout = Loadable({
-  loader: () => import("./common/NonAuthLayout"),
+
+const AuthLayoutNonAdmin = Loadable({
+  loader: () => import("./components/admin/AuthLayoutNonAdmin"),
   render(loaded, props) {
       let Component = loaded.default;
       return <Component {...props} />;
@@ -38,10 +39,9 @@ const withLayout = (WrappedComponent) => {
 
 const App = () => {
   const getLayout = () => {
-    return isAdminAuthenticated() ? AuthLayoutAdmin : NonAuthLayout;
+    return isAdminAuthenticated() === true ? AuthLayoutAdmin : AuthLayoutNonAdmin;
 };
   const renderRouteHasChilds = (route) => {
-    console.log(route);
     return !route.childs ? (
       <route.route
         key={route.name}

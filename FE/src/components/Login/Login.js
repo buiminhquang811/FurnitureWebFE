@@ -5,11 +5,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import {login} from './redux/action';
 import { Redirect } from "react-router-dom";
 import {isAdminAuthenticated} from "../../helpers/authUtils";
+import { useHistory } from 'react-router-dom';
 
 export default function Login() {
 
   const formRef = React.createRef();
-
+  const history = useHistory();
   const dispatch = useDispatch();
   const isLoading = useSelector(store => store.LoginReducer.isLoading);
   const userLogin = useSelector(store => store.LoginReducer.userLogin);
@@ -24,19 +25,21 @@ export default function Login() {
 
     React.useEffect(() => {
       formRef.current.resetFields();
+      const isAdmin = isAdminAuthenticated();
+      if (isAdmin) {
+        history.push(`/admin`);
+    }
+      console.log(isAdmin);
     }, [userLogin]);
 
     const renderRedirectToRoot = () => {
-      const isAdmin = isAdminAuthenticated();
-      console.log(isAdmin);
-      if (isAdmin) {
-          return <Redirect to="/admin" />;
-      }
+     
+      
   };
 
   return (
     <Row className='form-login-container'>
-      {renderRedirectToRoot()}
+      {/* {renderRedirectToRoot()} */}
       <Col span={8} offset={8} className='form-login'>
       <Spin spinning={isLoading}>
       <div className='form-title'>Đăng nhập</div>

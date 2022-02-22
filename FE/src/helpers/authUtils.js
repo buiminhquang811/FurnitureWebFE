@@ -9,8 +9,8 @@ const isAdminAuthenticated = () => {
     console.log({user});
     if (!user) {
         return false;
-    };
-    return user.role === 'MANAGER' ? true : false;
+    }
+    return user.role === 'MANAGER' ? true : 'other';
     // const decoded = jwtDecode(user.token);
     // const currentTime = Date.now() / 1000;
     // if (decoded.exp < currentTime) {
