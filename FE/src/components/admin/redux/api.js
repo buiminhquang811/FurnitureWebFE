@@ -4,6 +4,7 @@ import { ParseSimpleEndpoint } from "../../../helpers/ParseEndpoint";
 const CATEGORY = "categories";
 const PRODUCER = "producers";
 const PRODUCT = "products";
+const ORDER = "orders";
 
 const getListCategories = (data) => {
   return new Promise((resolve, reject) => {
@@ -87,6 +88,24 @@ const getDetailProduct = (data) => {
   })
 };
 
+const getListOrder = (data) => {
+  return new Promise((resolve, reject) => {
+    return apiBase
+    .get(`${ORDER}/all-orders?${ParseSimpleEndpoint(data.payload)}`)
+    .then((res) => resolve(res))
+    .catch((err) => reject(err));
+  })
+};
+
+const getDetailOrder = (data) => {
+  return new Promise((resolve, reject) => {
+    return apiBase
+    .get(`${ORDER}/${(data.payload)}`)
+    .then((res) => resolve(res))
+    .catch((err) => reject(err));
+  })
+};
+
 export {
   getListCategories,
   createCategory,
@@ -96,5 +115,7 @@ export {
   updateProducer,
   createProduct,
   getListProduct,
-  getDetailProduct
+  getDetailProduct,
+  getListOrder,
+  getDetailOrder
 }

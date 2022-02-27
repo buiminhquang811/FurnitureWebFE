@@ -2,6 +2,7 @@ import { all } from "redux-saga/effects";
 import RegisterSaga from "../components/Register/redux/saga";
 import LoginSaga from "../components/Login/redux/saga";
 import AdminSaga from "../components/admin/redux/saga";
+import UserSaga from "../components/user/redux/saga";
 
 
 export default function* rootSaga(getState) {
@@ -9,5 +10,6 @@ export default function* rootSaga(getState) {
         RegisterSaga(),
         LoginSaga(),
         AdminSaga(),
+        UserSaga(),
     ]);
 }

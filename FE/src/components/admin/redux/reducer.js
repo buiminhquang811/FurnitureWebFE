@@ -26,7 +26,13 @@ import {
   GET_DETAIL_PRODUCT, 
   GET_DETAIL_PRODUCT_ERROR, 
   GET_DETAIL_PRODUCT_SUCCESS,
-  CLEAR_PRODUCT } from "./action";
+  CLEAR_PRODUCT,
+  GET_LIST_ORDER, 
+  GET_LIST_ORDER_ERROR, 
+  GET_LIST_ORDER_SUCCESS,
+  GET_DETAIL_ORDER, 
+  GET_DETAIL_ORDER_ERROR, 
+  GET_DETAIL_ORDER_SUCCESS, } from "./action";
 
 const INIT_STATE = {
   listCategories: {},
@@ -48,7 +54,11 @@ const INIT_STATE = {
   isSuccessCreateProduct: null,
   isLoadingCreateProduct: false,
 
+  listOrder: {},
+  isLoadingListOrder: false,
+
   itemProduct: {},
+  itemOrder: {},
 };
 
 const AdminReducer = (state = INIT_STATE, action) => {
@@ -249,6 +259,46 @@ const AdminReducer = (state = INIT_STATE, action) => {
         itemProduct: {},
       }
     }
+
+    //ORDER
+    case GET_LIST_ORDER: {
+      return {
+        ...state,
+        isLoadingListOrder: true,
+      }
+    };
+    case GET_LIST_ORDER_SUCCESS: {
+      return {
+        ...state,
+        listOrder: action.payload,
+        isLoadingListOrder: false,
+      }
+    };
+    case GET_LIST_ORDER_ERROR: {
+      return {
+        ...state,
+        isLoadingListOrder: false,
+        listOrder: {},
+      }
+    };
+
+    case GET_DETAIL_ORDER: {
+      return {
+        ...state,
+      }
+    };
+    case GET_DETAIL_ORDER_SUCCESS: {
+      return {
+        ...state,
+        itemOrder: action.payload,
+      }
+    };
+    case GET_DETAIL_ORDER_ERROR: {
+      return {
+        ...state,
+        itemOrder: {},
+      }
+    };
     default:
       return { ...state };
   }

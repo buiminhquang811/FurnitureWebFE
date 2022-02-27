@@ -36,6 +36,14 @@ export const GET_DETAIL_PRODUCT_ERROR = "GET_DETAIL_PRODUCT_ERROR";
 
 export const CLEAR_PRODUCT = 'CLEAR_PRODUCT';
 
+export const GET_LIST_ORDER = "GET_LIST_ORDER";
+export const GET_LIST_ORDER_SUCCESS = "GET_LIST_ORDER_SUCCESS";
+export const GET_LIST_ORDER_ERROR = "GET_LIST_ORDER_ERROR";
+
+export const GET_DETAIL_ORDER = "GET_DETAIL_ORDER";
+export const GET_DETAIL_ORDER_SUCCESS = "GET_DETAIL_ORDER_SUCCESS";
+export const GET_DETAIL_ORDER_ERROR = "GET_DETAIL_ORDER_ERROR";
+
 
 export const getListCategoriesRequest = (params) => {
   return {
@@ -216,4 +224,44 @@ export const clearDetailProduct = () => {
   return {
     type: CLEAR_PRODUCT,
   }
-}
+};
+
+export const getListOrderRequest = (params) => {
+  return {
+    type: GET_LIST_ORDER,
+    payload: params,
+  }
+};
+
+export const getListOrderSucces = (data) => {
+  return {
+    type: GET_LIST_ORDER_SUCCESS,
+    payload: data,
+  }
+};
+
+export const getListOrderError = () => {
+  return {
+    type: GET_LIST_ORDER_ERROR,
+  }
+};
+
+export const getDetailOrderRequest = (params) => {
+  return {
+    type: GET_DETAIL_ORDER,
+    payload: params,
+  }
+};
+
+export const getDetailOrderSucces = (data) => {
+  return {
+    type: GET_DETAIL_ORDER_SUCCESS,
+    payload: data,
+  }
+};
+
+export const getDetailOrderError = () => {
+  return {
+    type: GET_DETAIL_ORDER_ERROR,
+  }
+};

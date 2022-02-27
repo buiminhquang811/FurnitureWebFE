@@ -10,6 +10,8 @@ import {
   GET_LIST_PRODUCT,
   CREATE_PRODUCT,
   GET_DETAIL_PRODUCT,
+  GET_LIST_ORDER,
+  GET_DETAIL_ORDER,
 } from "./action";
 
 import {
@@ -33,6 +35,11 @@ import {
   createProductError,
   getDetailProductSucces, 
   getDetailProductError,
+
+  getListOrderSucces, 
+  getListOrderError,
+  getDetailOrderSucces, 
+  getDetailOrderError,
 } from "./action";
 
 import {
@@ -44,7 +51,9 @@ import {
   updateProducer,
   createProduct,
   getListProduct,
-  getDetailProduct
+  getDetailProduct,
+  getListOrder,
+  getDetailOrder
 } from "./api";
 
 function* getListCategoriesSaga(data) {
@@ -174,6 +183,34 @@ function* getDetailProductSaga(data) {
   }
 };
 
+//ORDER
+
+function* getListOrderSaga(data) {
+  try {
+    const response = yield call(getListOrder, data);
+    if(response &&  response.data) {
+      yield put(getListOrderSucces(response.data));
+    } else {
+      yield put(getListOrderError());
+    }
+  } catch (error){
+    yield put(getListOrderError());
+  }
+};
+
+function* getDetailOrderSaga(data) {
+  try {
+    const response = yield call(getDetailOrder, data);
+    if(response &&  response.data) {
+      yield put(getDetailOrderSucces(response.data));
+    } else {
+      yield put(getDetailOrderError());
+    }
+  } catch (error){
+    yield put(getDetailOrderError());
+  }
+};
+
 function* defaultSaga() {
   yield takeEvery(GET_LIST_CATEGORIES, getListCategoriesSaga);
   yield takeEvery(CREATE_CATEGORY, createCategorySaga);
@@ -184,6 +221,8 @@ function* defaultSaga() {
   yield takeEvery(CREATE_PRODUCT, createProductSaga);
   yield takeEvery(GET_LIST_PRODUCT, getListProductSaga);
   yield takeEvery(GET_DETAIL_PRODUCT, getDetailProductSaga);
+  yield takeEvery(GET_LIST_ORDER, getListOrderSaga);
+  yield takeEvery(GET_DETAIL_ORDER, getDetailOrderSaga);
 
 };
 

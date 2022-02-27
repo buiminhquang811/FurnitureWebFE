@@ -60,6 +60,9 @@ class AuthLayoutAdmin extends Component {
               <Menu.Item key="Producer" icon={<UnorderedListOutlined />}>
                 <Link to="/admin/producer">Producer</Link>
               </Menu.Item>
+              <Menu.Item key="Order" icon={<UnorderedListOutlined />}>
+                <Link to="/admin/order">Order</Link>
+              </Menu.Item>
             
           
             {/* <Menu.Item key="2" icon={<VideoCameraOutlined />}>

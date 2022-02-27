@@ -9,8 +9,11 @@ const AdminPage = React.lazy(() => import("./components/admin/admin-manager/Admi
 const Category = React.lazy(() => import("./components/admin/Category/Category"));
 const Product = React.lazy(() => import("./components/admin/Product/Product"));
 const Producer = React.lazy(() => import("./components/admin/Producer/Producer"));
+const Order = React.lazy(() => import("./components/admin/Order/Order"));
+
 const NewProduct = React.lazy(() => import("./components/admin/NewProduct/NewProduct"));
 const Home = React.lazy(() => import("./components/user/Home/Home"));
+const Payment = React.lazy(() => import("./components/user/Payment/Payment"));
 
 const PrivateRoute = ({ component: Component, roles, ...rest }) => (
   <Route
@@ -43,12 +46,16 @@ const PrivateRoute = ({ component: Component, roles, ...rest }) => (
 
 const routes = [
   { path: "/", name: "Home", component: Home, route: Route, exact: true },
+  { path: "/payment", name: "Payment", component: Payment, route: Route, exact: true },
+
   { path: "/login", name: "Login", component: Login, route: Route,  exact: true },
   { path: "/register", name: "Register", component: Register, route: Route,  exact: true },
   { path: "/admin", name: "AdminPage", component: AdminPage, route: PrivateRoute, roles: ["MANAGER"], exact: true},
   { path: "/admin/category", name: "AdminCategory", component: Category, route: PrivateRoute, roles: ["MANAGER"], exact: true},
   { path: "/admin/product", name: "AdminProduct", component: Product, route: PrivateRoute, roles: ["MANAGER"], exact: true},
   { path: "/admin/producer", name: "AdminProducer", component: Producer, route: PrivateRoute, roles: ["MANAGER"], exact: true},
+  { path: "/admin/order", name: "AdminOrder", component: Order, route: PrivateRoute, roles: ["MANAGER"], exact: true},
+
   { path: "/admin/product/create", name: "AdminAddProduct", component: NewProduct, route: PrivateRoute, roles: ["MANAGER"], exact: true},
   { path: "/admin/product/edit/:id", name: "AdminProductEdit", component: NewProduct, route: PrivateRoute, roles: ["MANAGER"], exact: true},
 
