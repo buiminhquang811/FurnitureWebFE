@@ -5,6 +5,7 @@ const CATEGORY = "categories";
 const PRODUCER = "producers";
 const PRODUCT = "products";
 const ORDER = "orders";
+const COMMENT = "comments";
 
 const getListCategories = (data) => {
   return new Promise((resolve, reject) => {
@@ -106,6 +107,15 @@ const getDetailOrder = (data) => {
   })
 };
 
+const getListComment = (data) => {
+  return new Promise((resolve, reject) => {
+    return apiBase
+    .get(`${COMMENT}/all-comments?${ParseSimpleEndpoint(data.payload)}`)
+    .then((res) => resolve(res))
+    .catch((err) => reject(err));
+  })
+};
+
 export {
   getListCategories,
   createCategory,
@@ -117,5 +127,6 @@ export {
   getListProduct,
   getDetailProduct,
   getListOrder,
-  getDetailOrder
+  getDetailOrder,
+  getListComment
 }

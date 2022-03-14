@@ -2,6 +2,7 @@
   padding: 15px;
   border: 1px solid #ccc;
   .product-image {
+    cursor: pointer;
     img {
       width: 100%; /* or any custom size */
       height: 100%; 
@@ -14,5 +15,12 @@
     font-size: 0.9em;
     display: flex;
     justify-content: space-between;
+  }
+}
+
+.product-info-name {
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
   }
 }

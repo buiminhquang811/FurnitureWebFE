@@ -14,6 +14,7 @@ const Order = React.lazy(() => import("./components/admin/Order/Order"));
 const NewProduct = React.lazy(() => import("./components/admin/NewProduct/NewProduct"));
 const Home = React.lazy(() => import("./components/user/Home/Home"));
 const Payment = React.lazy(() => import("./components/user/Payment/Payment"));
+const ProductDetail = React.lazy(() => import("./components/user/ProductDetail/ProductDetail"));
 
 const PrivateRoute = ({ component: Component, roles, ...rest }) => (
   <Route
@@ -47,6 +48,7 @@ const PrivateRoute = ({ component: Component, roles, ...rest }) => (
 const routes = [
   { path: "/", name: "Home", component: Home, route: Route, exact: true },
   { path: "/payment", name: "Payment", component: Payment, route: Route, exact: true },
+  { path: "/product/:id", name: "ProductDetail", component: ProductDetail, route: Route, exact: true},
 
   { path: "/login", name: "Login", component: Login, route: Route,  exact: true },
   { path: "/register", name: "Register", component: Register, route: Route,  exact: true },
